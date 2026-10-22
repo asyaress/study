@@ -1,0 +1,7 @@
+.next/
+node_modules/
+*.tsbuildinfo
+.env*
+!.env.example
+storage/uploads/
+npm-debug.log*
