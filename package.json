@@ -9,7 +9,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "db:export": "node scripts/database-transfer.mjs export",
+    "db:import": "node scripts/database-transfer.mjs import"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
