@@ -89,7 +89,9 @@ export function FilePreview({ href, name }: { href: string; name: string }) {
 
   if (kind === "pptx") return <PptxSlides href={href} name={name} />;
   if (kind === "image" && url) return <img src={url} alt={name} />;
-  if (kind === "pdf" && url) return <iframe title={name} src={url} />;
+  if (kind === "pdf" && url) {
+    return <iframe title={name} src={`${url}#toolbar=0&navpanes=0&scrollbar=1`} />;
+  }
   return (
     <a className="study-download" href={href}>
       <Download size={18} /> {name}

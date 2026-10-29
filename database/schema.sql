@@ -86,11 +86,16 @@ CREATE TABLE IF NOT EXISTS attachments (
   size_bytes BIGINT UNSIGNED NOT NULL DEFAULT 0,
   file_path VARCHAR(500) NOT NULL,
   note VARCHAR(240) NULL,
+  mt_number TINYINT UNSIGNED NULL,
+  mt_status ENUM('confirmed', 'unconfirmed') NULL,
+  topic VARCHAR(180) NULL,
+  source_key VARCHAR(255) NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   KEY idx_attachments_schedule (schedule_id),
   KEY idx_attachments_course (course_id),
   KEY idx_attachments_date (material_date),
+  KEY idx_attachments_mt (mt_number),
   CONSTRAINT fk_attachments_schedule
     FOREIGN KEY (schedule_id) REFERENCES schedules(id)
     ON UPDATE CASCADE ON DELETE CASCADE,

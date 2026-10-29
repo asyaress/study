@@ -16,6 +16,7 @@ const ALLOWED_EXTENSIONS = new Set([
   ".docx",
   ".ppt",
   ".pptx",
+  ".pptm",
   ".xls",
   ".xlsx",
   ".zip",

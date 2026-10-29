@@ -13,6 +13,9 @@ type MaterialRow = RowDataPacket & {
   original_name: string;
   size_bytes: number;
   note: string | null;
+  mt_number: number | null;
+  mt_status: "confirmed" | "unconfirmed" | null;
+  topic: string | null;
   schedule_id: number | null;
   course_id: number | null;
   material_date: string | null;
@@ -36,7 +39,8 @@ export async function countUserFiles(userId: number) {
 
 export async function listMaterials(userId: number): Promise<MaterialRecord[]> {
   const [rows] = await db.query<MaterialRow[]>(
-    `SELECT a.id, a.category, a.original_name, a.size_bytes, a.note, a.schedule_id,
+    `SELECT a.id, a.category, a.original_name, a.size_bytes, a.note,
+            a.mt_number, a.mt_status, a.topic, a.schedule_id,
             COALESCE(a.course_id, s.course_id) AS course_id,
             DATE_FORMAT(COALESCE(a.material_date, s.schedule_date), '%Y-%m-%d') AS material_date,
             c.code AS course_code, c.name AS course_name,
@@ -63,6 +67,9 @@ export async function listMaterials(userId: number): Promise<MaterialRecord[]> {
     originalName: row.original_name,
     sizeBytes: Number(row.size_bytes),
     note: row.note,
+    mtNumber: row.mt_number === null ? null : Number(row.mt_number),
+    mtStatus: row.mt_status,
+    topic: row.topic,
   }));
 }
 

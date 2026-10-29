@@ -417,8 +417,12 @@ export function StudyPage({
                     aria-pressed={materialId === item.id}
                     onClick={() => setMaterialId(item.id)}
                   >
-                    <strong>{item.originalName}</strong>
-                    <small>{item.date ? formatLongDate(item.date) : ""}</small>
+                    <strong>{item.topic || item.originalName}</strong>
+                    <small>
+                      {item.mtNumber ? `MT ${String(item.mtNumber).padStart(2, "0")}` : ""}
+                      {item.mtNumber && item.date ? " · " : ""}
+                      {item.date ? formatLongDate(item.date) : ""}
+                    </small>
                   </button>
                 ))}
               </div>

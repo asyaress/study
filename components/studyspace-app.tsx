@@ -5,6 +5,7 @@ import {
   BookOpen,
   CalendarDays,
   Check,
+  ClipboardCheck,
   ChevronDown,
   ChevronLeft,
   ChevronRight,
@@ -43,6 +44,7 @@ import {
   useState,
   useSyncExternalStore,
 } from "react";
+import { ExamPage } from "@/components/exam-page";
 import { StudyPage } from "@/components/study-page";
 import { DayTasks } from "@/components/day-tasks";
 import { ThemeSelect } from "@/components/theme-select";
@@ -55,7 +57,7 @@ import type {
   UserProfile,
 } from "@/lib/models";
 
-type Section = "ringkasan" | "jadwal" | "kuliah" | "materi" | "belajar" | "berkas";
+type Section = "ringkasan" | "jadwal" | "kuliah" | "materi" | "ujian" | "belajar" | "berkas";
 type CalendarMode = "minggu" | "hari";
 type FormMode =
   | { kind: "buat"; date: string }
@@ -449,6 +451,8 @@ export default function StudySpaceApp() {
                   placeholder={
                     section === "materi"
                       ? "Cari nama file atau mata kuliah"
+                      : section === "ujian"
+                        ? "Cari topik atau mata kuliah"
                       : section === "belajar"
                         ? "Cari riwayat belajar"
                         : "Cari nama kelas atau ruang"
@@ -514,6 +518,13 @@ export default function StudySpaceApp() {
                     courses={courses}
                     schedules={filteredSchedules}
                     loading={loading}
+                  />
+                )}
+                {section === "ujian" && (
+                  <ExamPage
+                    materials={materials}
+                    query={query}
+                    loading={materialsLoading}
                   />
                 )}
                 {section === "materi" && (
@@ -796,6 +807,7 @@ function Sidebar({
       { value: "jadwal", label: "Jadwal", icon: CalendarDays },
       { value: "kuliah", label: "Mata kuliah", icon: GraduationCap },
       { value: "materi", label: "Materi", icon: BookOpen },
+      { value: "ujian", label: "Ujian", icon: ClipboardCheck },
       { value: "belajar", label: "Belajar", icon: Timer },
       { value: "berkas", label: "File", icon: Files },
     ];
@@ -859,6 +871,7 @@ function Topbar({
     jadwal: "Jadwal",
     kuliah: "Mata kuliah",
     materi: "Materi",
+    ujian: "Ujian",
     belajar: "Belajar",
     berkas: "File",
   };
@@ -876,6 +889,8 @@ function Topbar({
           placeholder={
             section === "materi"
               ? "Cari nama file atau mata kuliah"
+              : section === "ujian"
+                ? "Cari topik atau mata kuliah"
               : section === "belajar"
                 ? "Cari riwayat belajar"
                 : "Cari nama kelas atau ruang"
@@ -926,6 +941,14 @@ function MobileNav({
       >
         <CalendarDays size={21} />
         <span>Jadwal</span>
+      </button>
+      <button
+        className={section === "ujian" ? "active" : ""}
+        onClick={() => onChange("ujian")}
+        aria-current={section === "ujian" ? "page" : undefined}
+      >
+        <ClipboardCheck size={21} />
+        <span>Ujian</span>
       </button>
       <button
         className={section === "belajar" ? "active" : ""}
@@ -1728,7 +1751,7 @@ function MaterialsPage({
   const visible = materials.filter((item) => {
     if (courseId !== "semua" && item.courseId !== courseId) return false;
     if (!needle) return true;
-    return `${item.originalName} ${item.courseName ?? ""} ${item.courseCode ?? ""} ${item.note ?? ""} ${item.scheduleTitle ?? ""}`
+    return `${item.topic ?? ""} ${item.originalName} ${item.courseName ?? ""} ${item.courseCode ?? ""} ${item.note ?? ""} ${item.scheduleTitle ?? ""} ${item.mtNumber ? `MT ${item.mtNumber}` : ""}`
       .toLocaleLowerCase("id-ID")
       .includes(needle);
   });
@@ -1815,8 +1838,12 @@ function MaterialsPage({
                           <FileText size={18} />
                         </span>
                         <span className="material-copy">
-                          <strong>{file.originalName}</strong>
+                          <strong>{file.topic || file.originalName}</strong>
                           <small>
+                            {file.mtNumber ? (
+                              <em className="mt-pill">MT {String(file.mtNumber).padStart(2, "0")}</em>
+                            ) : null}
+                            {file.topic ? `${file.originalName} · ` : ""}
                             {formatBytes(file.sizeBytes)}
                             {file.scheduleTitle
                               ? ` · Dari kelas ${file.scheduleTitle}`

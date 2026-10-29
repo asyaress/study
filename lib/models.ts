@@ -52,6 +52,9 @@ export type MaterialRecord = {
   originalName: string;
   sizeBytes: number;
   note: string | null;
+  mtNumber: number | null;
+  mtStatus: "confirmed" | "unconfirmed" | null;
+  topic: string | null;
 };
 
 export type StudyNote = {

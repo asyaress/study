@@ -2737,7 +2737,7 @@ select:focus-visible {
     border: 1px solid rgba(255, 255, 255, 0.9);
     border-radius: 22px;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(6, minmax(0, 1fr));
     background: rgba(255, 253, 250, 0.84);
     box-shadow: 0 15px 40px rgba(40, 32, 27, 0.15);
     backdrop-filter: blur(22px) saturate(170%);
@@ -4136,7 +4136,7 @@ body {
   .quick-course-card small,
   .file-main small,
   .bottom-nav span {
-    font-size: 13px;
+    font-size: 11px;
   }
 
   .week-strip strong,
@@ -4328,6 +4328,40 @@ body {
   line-height: 1.35;
 }
 
+.mt-pill {
+  margin-right: 6px;
+  padding: 1px 7px;
+  border-radius: 99px;
+  display: inline-block;
+  background: var(--berry-soft);
+  color: var(--berry);
+  font-style: normal;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.exam-summary {
+  margin: -4px 0 16px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.exam-file {
+  margin-bottom: 8px;
+}
+
+.exam-file .material-item {
+  margin-bottom: 0;
+}
+
+.exam-item .material-copy strong {
+  white-space: normal;
+}
+
+.exam-file .study-preview {
+  margin-top: 8px;
+}
+
 .material-item a,
 .material-item button {
   width: 40px;
@@ -4451,7 +4485,48 @@ body {
   width: 100%;
   max-height: min(70vh, 720px);
   overflow: auto;
-  background: #fff;
+  background: transparent;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(116, 50, 75, 0.28) transparent;
+}
+
+.pptx-preview::-webkit-scrollbar {
+  width: 10px;
+}
+
+.pptx-preview::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 99px;
+  background: rgba(116, 50, 75, 0.28);
+  background-clip: padding-box;
+}
+
+.pptx-preview .pptx-preview-wrapper {
+  background: transparent !important;
+  height: auto !important;
+  overflow: visible !important;
+}
+
+.pptx-preview .pptx-preview-slide-wrapper {
+  margin: 0 auto 14px !important;
+  overflow: hidden;
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: var(--shadow-soft);
+}
+
+.pptx-preview .pptx-preview-slide-wrapper:last-child {
+  margin-bottom: 0 !important;
+}
+
+.pptx-preview .pptx-preview-wrapper-next {
+  background: var(--berry) !important;
+  box-shadow: 0 8px 18px rgba(116, 50, 75, 0.22);
+}
+
+.pptx-preview .pptx-preview-wrapper-pagination {
+  color: var(--berry) !important;
+  font-weight: 750;
 }
 .day-tasks {
   margin-top: 22px;
@@ -4469,9 +4544,13 @@ body {
 }
 .study-preview {
   margin-top: 14px;
+  padding: 10px;
   overflow: hidden;
-  border-radius: 16px;
-  background: #fff;
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(223, 242, 143, 0.28), transparent 16rem),
+    var(--bg);
+  box-shadow: inset 0 0 0 1px var(--line);
 }
 
 .study-preview img,
@@ -4480,18 +4559,23 @@ body {
   width: 100%;
   height: min(70vh, 640px);
   border: 0;
-  background: #fff;
+  border-radius: 14px;
+  background: var(--surface);
   object-fit: contain;
+  box-shadow: var(--shadow-soft);
 }
 
 .study-download {
   min-height: 72px;
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  color: var(--ink);
+  background: var(--surface);
+  color: var(--berry);
   font-weight: 750;
+  box-shadow: var(--shadow-soft);
 }
 
 .study-history h2 {
