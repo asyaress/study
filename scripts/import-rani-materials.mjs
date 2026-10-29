@@ -233,10 +233,6 @@ const CATALOG = {
     status: "unconfirmed",
     note: "Nomor MT belum tertulis. Tidak digabung ke MT 08.",
   },
-  "A. ADMINISTRASI-KULIAH/WhatsApp Image 2026-09-19 at 16.17.21.jpeg": { skip: "administrasi" },
-  "A. ADMINISTRASI-KULIAH/sks kuliah Ni Luh Raniasih.pdf": { skip: "administrasi" },
-  "A. ADMINISTRASI-KULIAH/IMG_1974.pdf": { skip: "administrasi" },
-  "A. ADMINISTRASI-KULIAH/IMG_3430.pdf": { skip: "administrasi" },
 };
 
 function loadEnv() {
@@ -317,7 +313,7 @@ await connection.query(
   [userId],
 );
 
-const files = await walk(ROOT);
+const files = (await walk(ROOT)).filter((file) => !file.includes("ADMINISTRASI-KULIAH"));
 const missing = files.filter((file) => !CATALOG[file]);
 if (missing.length) {
   console.error("Ada berkas yang belum dipetakan:", missing);

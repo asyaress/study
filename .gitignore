@@ -5,4 +5,5 @@ node_modules/
 !.env.example
 storage/uploads/
 .deploy/
+ppt-20261029T121303Z-1-001/ppt/A. ADMINISTRASI-KULIAH/
 npm-debug.log*
